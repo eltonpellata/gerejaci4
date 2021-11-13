@@ -1,0 +1,261 @@
+boostrap 5
+cara buat anah panah naik 
+{ <div id="preloader"></div>
+   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+cara buat pull git hub 
+git clone https://github.com/eltonpellata/eltonpellata.github.git
+catatan : git clone link github yang berada di code,code,copy link clone
+cara ubah di github
+1. git add .
+2. git commit -am "pesan yg di ubah"
+3. git push 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+buat folder di ci4 [ composer create-project codeigniter4/appstarter ] ( Nama Folder ) 
+ganti di env "ganti jadi .env -> ganti ( CI_ENVIRONMENT = development )"
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Buka ci 4 { php spark serve }
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+style="margin-left: 50px;
+posisi di tengah [
+.table > tbody > tr > * {
+  vertical-align: middle;
+}
+]
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ anti pembajakan form { <?= $csrf_field(); ?> }
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+css ci 4 { taru di dalm folder public->css->style.css taru 
+di template atau layanan template sebelum title href=="/css/namafolder.css" }
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ganti nama localhsot bisa jadi = 127.0.0.1
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+cara view data base di tabel [
+<tbody>
+    <?php foreach ($tb_duka as $key => $velue) :  ?>  
+  <tr>
+      <th scope="row"><?= $key+1?></th>
+      <td><?= $velue->name?></td>
+      <td><?= $velue->jk?></td>
+      <td><?= $velue->tmlahir?></td>
+      <td><?= $velue->tglahir?></td>
+      <td><?= $velue->pekerjaan?></td>
+      <td><?= $velue->agama?></td>
+      <td><?= $velue->tmmeninggal?></td>
+      <td><?= $velue->tglmeninggal?></td>
+      <td><?= $velue->pendidikan?></td>
+      <td>
+      <a href="" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></a>   
+      <a href="" class="btn btn-warning btn-sm"><i class="fas fa-trash"></i></a>   
+    </div>
+      </td>
+    </tr>
+    <?php endforeach; ?>
+  </tbody>
+]
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+cara migrations {
+di termianal [php spark make:migration tb] -> [
+
+<?php
+
+namespace App\Database\Migrations;
+
+use CodeIgniter\Database\Migration;
+
+class Tb extends Migration
+{
+    public function up()
+    {
+        $this->forge->addField([
+            'id'          => [
+                    'type'           => 'BIGINT',
+                    'constraint'     => 20,
+                    'unsigned'       => true,
+                    'auto_increment' => true,
+            ],
+            'nama'       => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => '225',
+            ],
+            'jenisklm'       => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => '225',
+            ],
+            'tmlahir'       => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => '225',
+            ],
+            'tgllahir'       => [
+                'type'       => 'DATE',
+            ],
+            'pekerjaan'       => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => '225',
+            ],
+            'tmmeninggal'       => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => '225',
+            ],
+            'tglmeninggal'       => [
+                    'type'       => 'DATE',
+            ],
+            'pddk'       => [
+                'type'       => 'VARCHAR',
+                'constraint' => '225',
+        ],
+    ]);
+    $this->forge->addKey('id', true);
+    $this->forge->createTable('data');
+    }
+
+    public function down()
+    {
+        $this->forge->dropTable('data');
+    }
+}
+
+
+
+]
+
+setelah seesai edit name tabel data base jalankan -> [ php spark migrate ] 
+
+untuk mengapus -> [ php spark migrate:rollback ]
+
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+penjelasan tentang routes.php {[  $routes->get('layout/tb', 'home::create'); ] 
+
+-> [ $routes->get('nama folder diview / nama folder didalam view ', 'nama controller:: nama function didalam controller');
+
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+terakir sampai di pembuaatan tambah data di web
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+controler tambah data
+{
+public function tambahdt(){
+        // nama data baseny sama misalkan table name_nama
+        $data = $this->request->getPost();
+        $this->db->table('data')->insert($data);
+
+        if ($this->db->affectedRows()> 0) {
+            return redirect()->to(site_url('data'));
+        }
+        //  nama data table beda 
+        // $data = [
+        //     'nama' => $this->request->getvar('nama'),
+        //     'jenisklm' => $this->request->getvar('jenisklm'),
+        //     'tmlahir' => $this->request->getvar('tmlahir'),
+        //     'tgllahir' => $this->request->getvar('tgllahir'),
+        //     'pekerjaan' => $this->request->getvar('pekerjaan'),
+        //     'tmmeninggal' => $this->request->getvar('tmmeninggal'),
+        //     'tglmeninggal' => $this->request->getvar('tglmeninggal'),
+        //     'pddk' => $this->request->getvar('pddk'),
+        // ];
+        // $this->db->table('data')->insert('$data');
+
+        // if ($this->db->affectedRow()> 0) {
+        //     return redirect()->to(site_url('home'));
+        // }
+
+}
+-----------------------------------------------------------------------------------------------
+
+*cara menambahkan data di ci4
+
+{
+[<form action="<?=site_url('home/save'); ?>" method="post" autocomplete="off">] =>
+[skrkip php yang digunakan di from <?=site_url('nama dasbord atau nama table yang mau di isi from / nama public function save yang ad di controler '); ?>"
+kita menggunkan method="post" autocomplete = "off" => pas di buka langsung digunakan]
+
+setelah itu kita meggunkan model buat sebuat file didalm folder models terserah naamanya apa ingat untuk selalu menyamakan classnya dengan nama folder oke{
+<?php 
+    namespace App\Models;
+    use CodeIgniter\Model;
+
+    class GerejaModel extends Model
+    {
+        protected $table = 'data';
+        protected $useTmestamps = true;
+        protected $allowedFields = ['nama', 'jenisklm', 'tmlahir', 'tgllahir', 'pekerjaan', 'tmmeninggal', 'tglmeninggal', 'pddk'];
+
+    }
+
+
+?>
+}
+catatan :  class GerejaModel extends Model [ class nama model extends Model ]
+
+setelah itu ke controler => {
+
+ public function save()
+    {
+        $this->GerejaModel->save([
+            'nama' => $this->request->getVar('nama'),
+            'jenisklm' => $this->request->getVar('jenisklm'),
+            'tmlahir' => $this->request->getVar('tmlahir'),
+            'tgllahir' => $this->request->getVar('tgllahir'),
+            'pekerjaan' => $this->request->getVar('pekerjaan'),
+            'tmmeninggal' => $this->request->getVar('tmmeninggal'),
+            'tglmeninggal' => $this->request->getVar('tglmeninggal'),
+            'pddk' => $this->request->getVar('pddk')
+        ]);
+        return redirect()->to('home');
+    }
+}
+
+catatan:	$this->GerejaModel->save [ $this->nama models->nama function]
+		'nama' => $this->request->getVar('nama'),[ 'nama di input from ' => $this->request->getVar('nama data base'), bisa di ubah"  ]
+
+	   
+setelah itu tambahkan =>{
+
+use App\Models\GerejaModel;
+
+[ use App\Models\nama di dalam folder models; ]
+
+cattan: nama model bisa di ubah tergantung nama modelsnya
+
+}
+
+setelah itu kita =>folder controler=> basecontroller.php {
+
+ $this->nama = 'models';
+ $this->GerejaModel = new \App\Models\GerejaModel;
+
+[  $this->nama = 'nama terserah';
+   cattan: semacam title buat model tidak di gukan juga tidak apa"
+   $this->GerejaModel = new \App\Models\GerejaModel;
+   cattn: $this->nama models = new \App\Models\nama models;
+
+ ]
+
+}
+
+ cara buat alert tambahkakn pada akiran save atau tambah data misalkan {
+
+	return redirect()->to(site_url('home'))->with('success','data berhasil di tambahkan');
+
+}
+
+lalu tambhakan pada alert yang mau di tampilkan { 
+
+<?php if (session()->getflashdata('success')) : ?>
+  <div class="alert alert-success alert-dismissable show fade">
+      <div class="alert-body">
+        <button class="close" data-dismiss="alert">X</button>
+          <b>Success !</b>
+            <?= session()->getflashdata('success'); ?>
+            </div>
+        </div>
+ <?php endif; ?>
+
+}
+
+}
+-----------------------------------------------------------------------------------------------------------
